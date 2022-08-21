@@ -18,7 +18,7 @@ function App(args) {
 
   const surveyJson = {
     "title": "Progress quiz",
-    "description": "Test your programming knowledge and win some cool prizes",
+    "description": "Test your logic skills and enter a raffle for supreme noise cancelling headset BOSE QUIETCOMFORT 35 II!",
     "logo": "https://www.progress.com/favicon.ico?v=2",
     "logoWidth": 60,
     "logoHeight": 60,
@@ -66,12 +66,21 @@ function App(args) {
 
   for (const questionId in questions) {
     const question = questions[questionId];
+    const choices = [];
+
+    Object.keys(question.answers).forEach((key) => {
+      choices.push({
+        value: key,
+        text: `<img src="${question.answers[key]}"/>`
+      });
+    });
 
     surveyJson.pages.unshift({
       elements: [{
         hideNumber: true,
         type: question.questionType === "chooseLanguage" ? "dropdown" : "radiogroup",
         name: questionId,
+        // colCount: 4,
         title: `${question.question}${question.codeblock ? `
 <div id="codeblock" class="codeblock">
 <pre>
@@ -79,8 +88,11 @@ function App(args) {
 ${question.codeblock}
 </code>
 </pre>
+</div>` : ''}${question.imageData ? `
+<div id="imageData" class="imageData">
+<image src="${question.imageData}"/>
 </div>` : ''}`,
-        choices: Object.values(question.answers),
+        choices,
         correctAnswer: question.correctAnswer
       }]
     });
@@ -97,6 +109,7 @@ ${question.codeblock}
       name: surveyData.Name || "Empty",
       agreeToReceiveEmails: surveyData.ReceiveEmails,
       answeredQuestions: {}
+      // TODO: Add Date of completion
     };
     let keys = Object.keys(surveyData);
     keys = keys.filter(k => k !== "Email" && k !== "Name" && k !== "ReceiveEmails");
