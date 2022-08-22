@@ -9,7 +9,7 @@ function App(args) {
   const firebaseService = args.firebaseService;
 
   const surveyValidateQuestion = function (s, options) {
-    if (options && options.question && !options?.question?.isAnswerCorrect() ) {
+    if (options && options.question && !options?.question?.isAnswerCorrect()) {
       if (!options.question.isAnswerCorrect()) {
         options.error = "Incorrect answer!"
       }
@@ -108,8 +108,8 @@ ${question.codeblock}
       email: surveyData.Email,
       name: surveyData.Name || "Empty",
       agreeToReceiveEmails: surveyData.ReceiveEmails,
-      answeredQuestions: {}
-      // TODO: Add Date of completion
+      answeredQuestions: {},
+      dateTime: Date.now()
     };
     let keys = Object.keys(surveyData);
     keys = keys.filter(k => k !== "Email" && k !== "Name" && k !== "ReceiveEmails");
